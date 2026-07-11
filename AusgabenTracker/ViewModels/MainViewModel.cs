@@ -44,6 +44,16 @@ public class MainViewModel : ViewModelBase
     }
     public decimal TotalAmount => _expenses.Sum(e => e.Amount);
 
+    public LimitStatus Status
+    {
+        get
+        {
+            if (TotalAmount > 400) return LimitStatus.Over;
+            if (TotalAmount >= 200) return LimitStatus.Warning;
+            return LimitStatus.Ok;
+        }
+    }
+
     public RelayCommand AddExpenseCommand { get; }
     public RelayCommand DeleteExpenseCommand { get; }
     public MainViewModel(DBHelper dbHelper)
@@ -103,6 +113,7 @@ public class MainViewModel : ViewModelBase
         Expenses.Clear();
         foreach (var expense in expenses) Expenses.Add(expense);
         OnPropertyChanged(nameof(TotalAmount));
+        OnPropertyChanged(nameof(Status));
 
     }
 }
