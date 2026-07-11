@@ -41,6 +41,16 @@ namespace AusgabenTracker.Data
 
             await connection.ExecuteAsync(sql, expense);
         }
+
+        public async Task DeleteExpenseAsync(Expense expense)
+        {
+            using SqlConnection connection = new(_connectionString);
+
+            string sql = @"
+                DELETE FROM Expense WHERE id = @Id";
+
+            await connection.ExecuteAsync(sql, expense);
+        }
     }
 }
 
