@@ -23,7 +23,7 @@ namespace AusgabenTracker.Data
             using SqlConnection connection = new(_connectionString);
 
             string sql = @"
-                SELECT Description, Amount, Date, c.Name as CategoryName 
+                SELECT e.Id, Description, Amount, Date, c.Name as CategoryName 
                 FROM Expense as e 
                 INNER JOIN Category as c on c.id = e.categoryId";
 
