@@ -23,7 +23,7 @@ namespace AusgabenTracker.Data
             using SqlConnection connection = new(_connectionString);
 
             string sql = @"
-                SELECT Description, Amount, Date, c.Name as CategoryName 
+                SELECT e.Id, Description, Amount, Date, c.Name as CategoryName 
                 FROM Expense as e 
                 INNER JOIN Category as c on c.id = e.categoryId";
 
@@ -38,6 +38,16 @@ namespace AusgabenTracker.Data
             string sql = @"
                 INSERT INTO Expense (Description, Amount, Date, CategoryId) 
                 VALUES (@Description, @Amount, @Date, @CategoryId)";
+
+            await connection.ExecuteAsync(sql, expense);
+        }
+
+        public async Task DeleteExpenseAsync(Expense expense)
+        {
+            using SqlConnection connection = new(_connectionString);
+
+            string sql = @"
+                DELETE FROM Expense WHERE id = @Id";
 
             await connection.ExecuteAsync(sql, expense);
         }
