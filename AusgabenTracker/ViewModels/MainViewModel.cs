@@ -1,6 +1,8 @@
 ﻿using AusgabenTracker.Data;
 using AusgabenTracker.Models;
+using MaterialDesignThemes.Wpf;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace AusgabenTracker.ViewModels;
 
@@ -99,7 +101,13 @@ public class MainViewModel : ViewModelBase
     {
         if (SelectedExpense is null)
             return;
-        await _dbHelper.DeleteExpenseAsync(SelectedExpense);
+
+        var result = await DialogHost.Show(Application.Current.MainWindow.Resources["DeleteDialog"], "RootDialog");
+        if (result is bool confirmed && confirmed)
+        {
+            await _dbHelper.DeleteExpenseAsync(SelectedExpense);
+        }
+
         await LoadAsync();
     }
 
