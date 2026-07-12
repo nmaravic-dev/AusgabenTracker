@@ -1,6 +1,8 @@
 ﻿using AusgabenTracker.Data;
 using AusgabenTracker.Models;
+using MaterialDesignThemes.Wpf;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace AusgabenTracker.ViewModels;
 
@@ -43,6 +45,16 @@ public class MainViewModel : ViewModelBase
         set => SetProperty(ref _selectedExpense, value);
     }
     public decimal TotalAmount => _expenses.Sum(e => e.Amount);
+
+    public LimitStatus Status
+    {
+        get
+        {
+            if (TotalAmount > 400) return LimitStatus.Over;
+            if (TotalAmount >= 200) return LimitStatus.Warning;
+            return LimitStatus.Ok;
+        }
+    }
 
     public RelayCommand AddExpenseCommand { get; }
     public RelayCommand DeleteExpenseCommand { get; }
@@ -89,7 +101,13 @@ public class MainViewModel : ViewModelBase
     {
         if (SelectedExpense is null)
             return;
-        await _dbHelper.DeleteExpenseAsync(SelectedExpense);
+
+        var result = await DialogHost.Show(Application.Current.MainWindow.Resources["DeleteDialog"], "RootDialog");
+        if (result is bool confirmed && confirmed)
+        {
+            await _dbHelper.DeleteExpenseAsync(SelectedExpense);
+        }
+
         await LoadAsync();
     }
 
@@ -103,6 +121,7 @@ public class MainViewModel : ViewModelBase
         Expenses.Clear();
         foreach (var expense in expenses) Expenses.Add(expense);
         OnPropertyChanged(nameof(TotalAmount));
+        OnPropertyChanged(nameof(Status));
 
     }
 }
