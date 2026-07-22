@@ -60,7 +60,7 @@ CREATE TABLE Expense (
 );
 
 -- Beispiel-Kategorien
-INSERT INTO Category (Name) VALUES ('Groceries'), ('Transport'), ('Leisure');
+INSERT INTO Category (Name) VALUES ('Lebensmittel'), ('Transport'), ('Freizeit');
 ```
 
 **2. Connection-String anpassen**
