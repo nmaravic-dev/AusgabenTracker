@@ -2,6 +2,7 @@
 using AusgabenTracker.ViewModels;
 using AusgabenTracker.Views;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 using System.Windows;
 
 namespace AusgabenTracker
@@ -15,6 +16,17 @@ namespace AusgabenTracker
 
         public App()
         {
+            var culture = new CultureInfo("de-DE");
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
+            FrameworkElement.LanguageProperty.OverrideMetadata(
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(
+                    System.Windows.Markup.XmlLanguage.GetLanguage("de-DE")));
+
             ServiceCollection services = new();
 
             string connectionString = "Server=DESKTOP-TEIN2QD;Database=Ausgaben_Tracker;Trusted_Connection=True;TrustServerCertificate=True;";
@@ -27,9 +39,10 @@ namespace AusgabenTracker
         }
         protected override void OnStartup(StartupEventArgs e)
         {
-            var window = _serviceProvider.GetRequiredService<MainWindow>();
-            window.Show();
             base.OnStartup(e);
+
+            var window = _serviceProvider.GetRequiredService<MainWindow>();
+            window.Show();            
         }
     }
 
