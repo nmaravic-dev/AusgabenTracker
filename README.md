@@ -3,6 +3,7 @@
 Desktop-Anwendung zur Erfassung und Auswertung persönlicher Ausgaben.
 Entwickelt mit **C# / WPF** nach dem **MVVM-Muster**, mit Anbindung an eine **SQL-Server-Datenbank** (Dapper) und **Dependency Injection**.
 
+![Ausgaben-Tracker – Übersicht mit farbiger Limit-Statusanzeige](https://github.com/user-attachments/assets/536cfc43-6e11-4b18-a4d8-bce471f30a87)
 ## Funktionen
 - Ausgaben erfassen (Beschreibung, Betrag, Kategorie, Datum)
 - Übersicht aller Ausgaben inkl. Kategorie (JOIN über Fremdschlüssel)
